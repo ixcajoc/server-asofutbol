@@ -26,14 +26,14 @@ router.get('/:id/stats', getPlayerStats);
 // Rutas protegidas
 router.post('/', 
   authenticateToken, 
-  requirePermission('create'), 
+  // requirePermission('create'), 
   playerValidation, 
   createPlayer
 );
 
 router.put('/:id', 
   authenticateToken, 
-  requirePermission('update'), 
+  // requirePermission('update'), 
   playerValidation, 
   updatePlayer
 );

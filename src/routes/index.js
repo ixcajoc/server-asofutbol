@@ -13,6 +13,7 @@ const eventRoutes = require('./events');
 const reportRoutes = require('./reports');
 const searchRoutes = require('./search');
 const uploadRoutes = require('./upload');
+const jornadaRoutes = require('./jornadas');
 
 // Montar las rutas
 router.use('/auth', authRoutes);
@@ -25,6 +26,7 @@ router.use('/events', eventRoutes);
 router.use('/reports', reportRoutes);
 router.use('/search', searchRoutes);
 router.use('/upload', uploadRoutes);
+router.use('/jornadas', jornadaRoutes);
 
 // Ruta de información de la API
 router.get('/', (req, res) => {

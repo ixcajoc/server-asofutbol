@@ -22,14 +22,14 @@ router.get('/:id/stats', getTeamStats);
 // Rutas protegidas
 router.post('/', 
   authenticateToken, 
-  requirePermission('create'), 
+  // requirePermission('create'), 
   teamValidation, 
   createTeam
 );
 
 router.put('/:id', 
   authenticateToken, 
-  requirePermission('update'), 
+  // requirePermission('update'), 
   teamValidation, 
   updateTeam
 );

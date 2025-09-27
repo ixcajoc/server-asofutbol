@@ -141,12 +141,14 @@ const requirePermission = (permission) => {
 };
 
 // Generar token JWT
-const generateToken = (userId, username, roleId) => {
+const generateToken = (userId, username, roleId,rolName, rolPermitions) => {
   return jwt.sign(
     { 
       userId, 
       username, 
-      roleId 
+      roleId,
+      rolName,
+      rolPermitions 
     },
     JWT_SECRET,
     { 

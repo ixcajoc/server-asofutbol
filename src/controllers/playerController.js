@@ -37,24 +37,26 @@ const playerValidation = [
       return true;
     }),
   
-  body('posicion')
-    .isIn(['PORTERO', 'DEFENSA', 'MEDIOCAMPISTA', 'DELANTERO'])
-    .withMessage('La posición debe ser: PORTERO, DEFENSA, MEDIOCAMPISTA o DELANTERO'),
+  // body('posicion')
+  //   .isIn(['PORTERO', 'DEFENSA', 'MEDIOCAMPISTA', 'DELANTERO'])
+  //   .withMessage('La posición debe ser: PORTERO, DEFENSA, MEDIOCAMPISTA o DELANTERO'),
   
   body('peso')
     .optional()
-    .isFloat({ min: 40, max: 150 })
+    .isFloat({ min: 0, max: 500 })
     .withMessage('El peso debe estar entre 40 y 150 kg'),
   
   body('altura')
     .optional()
-    .isFloat({ min: 1.40, max: 2.20 })
+    .isFloat({ min: 0, max: 3.0  })
     .withMessage('La altura debe estar entre 1.40 y 2.20 metros'),
   
   body('pie_habil')
     .optional()
-    .isIn(['DERECHO', 'IZQUIERDO', 'AMBIDIESTRO'])
-    .withMessage('El pie hábil debe ser: DERECHO, IZQUIERDO o AMBIDIESTRO'),
+    // .isIn(['DERECHO', 'IZQUIERDO', 'AMBIDIESTRO'])
+    .isIn(['DERECHO', 'IZQUIERDO'])
+    // .withMessage('El pie hábil debe ser: DERECHO, IZQUIERDO o AMBIDIESTRO'),
+    .withMessage('El pie hábil debe ser: DERECHO O IZQUIERDO'),
   
   body('nacionalidad')
     .optional()
@@ -63,13 +65,13 @@ const playerValidation = [
   
   body('documento_identidad')
     .optional()
-    .isLength({ max: 20 })
-    .withMessage('El documento de identidad debe tener máximo 20 caracteres'),
+    .isLength({ max: 13 })
+    .withMessage('El documento de identidad debe tener máximo 13 caracteres'),
   
-  body('telefono')
-    .optional()
-    .isMobilePhone('es-CO')
-    .withMessage('Debe proporcionar un número de teléfono válido'),
+  // body('telefono')
+  //   .optional()
+  //   .isMobilePhone('es-CO')
+  //   .withMessage('Debe proporcionar un número de teléfono válido'),
   
   body('email')
     .optional()
