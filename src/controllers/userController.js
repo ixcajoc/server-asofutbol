@@ -31,10 +31,10 @@ const userValidation = [
     .withMessage('El apellido debe tener máximo 100 caracteres')
     .trim(),
   
-  body('telefono')
-    .optional()
-    .isMobilePhone('es-CO')
-    .withMessage('Debe proporcionar un número de teléfono válido'),
+  // body('telefono')
+  //   .optional()
+  //   .isMobilePhone('es-CO')
+  //   .withMessage('Debe proporcionar un número de teléfono válido'),
   
   body('fecha_nacimiento')
     .optional()
@@ -117,7 +117,7 @@ const getUserById = async (req, res, next) => {
     const result = await query(
       `SELECT u.id_usuario, u.username, u.email, u.nombre, u.apellido, u.telefono, 
               u.fecha_nacimiento, u.activo, u.fecha_registro, u.ultimo_acceso,
-              r.nombre_rol, r.descripcion as rol_descripcion, r.permisos
+              r.id_rol, r.nombre_rol, r.descripcion as rol_descripcion, r.permisos
        FROM usuarios u
        JOIN roles r ON u.id_rol = r.id_rol
        WHERE u.id_usuario = $1`,
@@ -225,15 +225,16 @@ const updateUser = async (req, res, next) => {
     delete updateData.ultimo_acceso;
 
     // Solo administradores pueden cambiar roles
-    if (updateData.id_rol && req.user.role !== 'ADMINISTRADOR') {
+    if (updateData.id_rol && req.user.roleId !== 1) {
       delete updateData.id_rol;
     }
 
     // Solo el propio usuario o administrador puede actualizar
-    if (req.user.id !== parseInt(id) && req.user.role !== 'ADMINISTRADOR') {
+    // if (req.user.id !== parseInt(id) && req.user.role !== 'ADMINISTRADOR') {
+    if (req.user.id !== parseInt(id) && req.user.roleId !== 1) {
       return res.status(403).json({
         success: false,
-        message: 'No tienes permisos para actualizar este usuario'
+        message: `No tienes permisos para actualizar este usuario ${updateData}`
       });
     }
 
