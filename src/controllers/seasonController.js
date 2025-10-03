@@ -117,13 +117,80 @@ const createSeason = async (req, res, next) => {
 };
 
 // Activar temporada
+// const activateSeason = async (req, res, next) => {
+//   try {
+//     const { id } = req.params;
+
+//     // Verificar que la temporada existe
+//     const seasonResult = await query('SELECT * FROM temporadas WHERE id_temporada = $1', [id]);
+    
+//     if (seasonResult.rows.length === 0) {
+//       return res.status(404).json({
+//         success: false,
+//         message: 'Temporada no encontrada'
+//       });
+//     }
+
+//     // Desactivar todas las temporadas y activar la seleccionada
+//     await query('UPDATE temporadas SET activa = false');
+//     const result = await query(
+//       'UPDATE temporadas SET activa = true WHERE id_temporada = $1 RETURNING *',
+//       [id]
+//     );
+
+//     res.json({
+//       success: true,
+//       message: 'Temporada activada exitosamente',
+//       data: result.rows[0]
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+// Activar temporada
+// const activateSeason = async (req, res, next) => {
+//   try {
+//     const { id } = req.params;
+
+//     // Verificar que la temporada existe
+//     const seasonResult = await query('SELECT * FROM temporadas WHERE id_temporada = $1', [id]);
+//     if (seasonResult.rows.length === 0) {
+//       return res.status(404).json({
+//         success: false,
+//         message: 'Temporada no encontrada'
+//       });
+//     }
+
+//     // Activar la temporada seleccionada y desactivar todas las demás
+//     const result = await query(
+//       `UPDATE temporadas 
+//        SET activa = (id_temporada = $1)
+//        RETURNING *`,
+//       [id]
+//     );
+
+//     res.json({
+//       success: true,
+//       message: 'Temporada activada exitosamente',
+//       data: result.rows.find(r => r.id_temporada == id) // devuelve solo la activada
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+
+// Activar temporada
 const activateSeason = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     // Verificar que la temporada existe
-    const seasonResult = await query('SELECT * FROM temporadas WHERE id_temporada = $1', [id]);
-    
+    const seasonResult = await query(
+      'SELECT * FROM temporadas WHERE id_temporada = $1',
+      [id]
+    );
     if (seasonResult.rows.length === 0) {
       return res.status(404).json({
         success: false,
@@ -131,22 +198,29 @@ const activateSeason = async (req, res, next) => {
       });
     }
 
-    // Desactivar todas las temporadas y activar la seleccionada
-    await query('UPDATE temporadas SET activa = false');
+    // Activar la temporada elegida y desactivar todas las demás en una sola query
     const result = await query(
-      'UPDATE temporadas SET activa = true WHERE id_temporada = $1 RETURNING *',
+      `UPDATE temporadas
+       SET activa = (id_temporada = $1)
+       RETURNING *`,
       [id]
     );
+
+    // Devolver solo la temporada activada
+    const activeSeason = result.rows.find(r => r.id_temporada == id);
 
     res.json({
       success: true,
       message: 'Temporada activada exitosamente',
-      data: result.rows[0]
+      data: activeSeason
     });
   } catch (error) {
     next(error);
   }
 };
+
+
+
 
 // Obtener tabla de clasificación de la temporada
 const getSeasonStandings = async (req, res, next) => {
