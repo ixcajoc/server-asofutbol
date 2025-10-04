@@ -100,6 +100,8 @@ const getAllMatches = async (req, res, next) => {
     const result = await query(
       `SELECT p.*, 
               j.numero_jornada, j.nombre as jornada_nombre,
+              t.id_temporada as id_temporada,
+              t.activa as temporada_activa,
               t.nombre as temporada_nombre,
               el.nombre as equipo_local_nombre, el.nombre_corto as equipo_local_corto, el.logo_url as equipo_local_logo,
               ev.nombre as equipo_visitante_nombre, ev.nombre_corto as equipo_visitante_corto, ev.logo_url as equipo_visitante_logo,
@@ -150,6 +152,8 @@ const getMatchById = async (req, res, next) => {
     const result = await query(
       `SELECT p.*, 
               j.numero_jornada, j.nombre as jornada_nombre,
+              t.id_temporada as id_temporada,
+              t.activa as temporada_activa,
               t.nombre as temporada_nombre,
               el.nombre as equipo_local_nombre, el.nombre_corto as equipo_local_corto, el.logo_url as equipo_local_logo,
               ev.nombre as equipo_visitante_nombre, ev.nombre_corto as equipo_visitante_corto, ev.logo_url as equipo_visitante_logo,
