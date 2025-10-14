@@ -12,6 +12,9 @@ const pool = new Pool({
   max: 20, // máximo número de conexiones en el pool
   idleTimeoutMillis: 30000, // tiempo antes de cerrar conexiones inactivas
   connectionTimeoutMillis: 2000, // tiempo de espera para obtener conexión
+  ssl: {
+    rejectUnauthorized: false, // para proveedores con certificados gestionados
+  },
   
 });
 
